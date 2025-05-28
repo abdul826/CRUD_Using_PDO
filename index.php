@@ -176,8 +176,27 @@ $tree = buildTree($members);    // Nested array for tree view
         });
     });
 
+    // DELETE Member using AJAX
+            $('.delete-member').on('click', function () {
+                var li = $(this).closest('li');
+                var id = li.data('id');
 
-
+                if (confirm("Are you sure you want to delete this member?")) {
+                    $.ajax({
+                        url: 'delete_member.php',
+                        method: 'DELETE',
+                        contentType: 'application/json',
+                        data: JSON.stringify({ id: id }),
+                        success: function (response) {
+                            // On successful deletion, remove the member from the tree
+                            li.remove();
+                        },
+                        error: function () {
+                            alert('Failed to delete member.');
+                        }
+                    });
+                }
+            });
 });
 
     </script>
